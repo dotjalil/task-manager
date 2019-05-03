@@ -6,10 +6,9 @@ import Login from './views/authentication/Login.vue'
 import TasksAll from './views/tasks/TasksAll.vue'
 import TasksEdit from './views/tasks/TasksEdit.vue'
 import TasksCreate from './views/tasks/TasksCreate.vue'
+import * as auth from './services/AuthService'
 
 Vue.use(Router)
-
-const isLoggedIn = false;
 
 export default new Router({
   mode: 'history',
@@ -26,7 +25,7 @@ export default new Router({
       component: TasksAll,
       beforeEnter: (to, from, next) => {
         // Navigation Guard protects this route. User must be logged in, else will be routed to login page
-        if (isLoggedIn) {
+        if (auth.isLoggedIn()) {
           next();
         } else {
           next('/login');
@@ -39,7 +38,7 @@ export default new Router({
       component: TasksCreate,
       beforeEnter: (to, from, next) => {
         // Navigation Guard protects this route. User must be logged in, else will be routed to login page
-        if (isLoggedIn) {
+        if (auth.isLoggedIn()) {
           next();
         } else {
           next('/login');
@@ -52,7 +51,7 @@ export default new Router({
       component: TasksEdit,
       beforeEnter: (to, from, next) => {
         // Navigation Guard protects this route. User must be logged in, else will be routed to login page
-        if (isLoggedIn) {
+        if (auth.isLoggedIn()) {
           next();
         } else {
           next('/login');

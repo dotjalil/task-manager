@@ -1,6 +1,7 @@
 const User = require('../../models/user-model')
 const Task = require('../../models/task-model')
 const moment = require('moment')
+const auth = require('../../services/auth-service')
 
 module.exports.index = function(req, res) {
     // find all tasks
@@ -14,7 +15,7 @@ module.exports.index = function(req, res) {
 
 module.exports.create = function(req, res) {
     // create task
-    const id = 10
+    const id = auth.getUserId(req)
     User.findOne({ _id: id }, (error, user) => {
         if (error && !user) {
             return res.status(500).json()
@@ -34,7 +35,7 @@ module.exports.create = function(req, res) {
 
 module.exports.update = function(req, res) {
     // update task
-    const id = 10
+    const id = auth.getUserId(req)
     User.findOne({ _id: id }, (error, user) => {
         if (error) {
             return res.status(500).json()
@@ -43,7 +44,7 @@ module.exports.update = function(req, res) {
             return res.status(404).json()
         }
 
-        const task = req.body.task
+        const task = new Task(req.body.task)
         task.author = user._id
         task.dueDate = moment(task.dueDate)
         Task.findByIdAndUpdate({ _id: task._id }, task, error => {
@@ -57,7 +58,7 @@ module.exports.update = function(req, res) {
 
 module.exports.remove = function(req, res) {
     // remove task
-    const id = 5
+    const id = auth.getUserId(req)
     Task.findOne({ _id: req.params.id }, (error, task) => {
         if (error) {
             return res.status(500).json()

@@ -1,5 +1,6 @@
 const StringUtil = require('../../utilities/string-util')
 const User = require('../../models/user-model')
+const { generateJWT } = require('../../services/auth-service')
 
 module.exports.index = function(req, res) {
     const validation = validateIndex(req.body)
@@ -20,7 +21,8 @@ module.exports.index = function(req, res) {
         if (!passwordMatch) {
             return res.status(401).json()
         }
-        return res.status(200).json()
+        const token = generateJWT(user)
+        return res.status(200).json({ token: token })
     })
 }
 
