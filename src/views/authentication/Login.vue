@@ -28,9 +28,12 @@ export default {
         }
     },
     methods: {
-        onSubmit: function(event) {
-            event.preventDefault()
-            auth.login()
+        onSubmit: async function(event) {
+            const user = {
+                username: this.username,
+                password: this.password
+            }
+            await auth.login(user)
             this.$router.push({ name: 'home' })
         }
     }

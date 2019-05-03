@@ -12,6 +12,13 @@ export default {
   name: 'home',
   components: {
     Hero
+  },
+  beforeCreate: function() {
+    fetch(this.$store.state.apiUrl + '/api/user', {
+      method: 'GET'
+    })
+    // .then(res => res.json())
+    .then(res => console.log(res))
   }
 }
 </script>
